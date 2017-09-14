@@ -26,10 +26,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if (CrossPlatformInputManager.GetButtonDown("Jump"))
-		{
-			GetComponent<SpriteRenderer>().enabled = !GetComponent<SpriteRenderer>().enabled;
-		}
+		
 
 	}
 
