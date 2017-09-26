@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,7 +28,7 @@ public class CharacterLife : MonoBehaviour {
 				Instantiate(explosion, transform.position, transform.rotation);
 				if(this.GetComponent<Player>() != null)
 				{
-
+					GetComponent<Player>().Respawn();
 				}
 				else
 				{
