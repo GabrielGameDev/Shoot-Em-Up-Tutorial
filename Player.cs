@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -17,39 +17,51 @@ public class Player : MonoBehaviour {
 	public Transform[] shotSpawns;
 	public float fireRate;
 	public int fireLevel = 1;
+	public int lives = 3;
+	public float spawnTime;
+	public float invencibilityTime;
 
 	private Rigidbody2D rb;
 	private float nextFire;
+	private bool isDead = false;
+	private SpriteRenderer sprite;
+	private Vector3 startPosition;
 
 	// Use this for initialization
 	void Start () {
 
 		rb = GetComponent<Rigidbody2D>();
+		sprite = GetComponent<SpriteRenderer>();
+		startPosition = transform.position;
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (CrossPlatformInputManager.GetButton("Fire") && Time.time > nextFire)
+		if (!isDead)
 		{
-			nextFire = Time.time + fireRate;
-			if(fireLevel >= 1)
+			if (CrossPlatformInputManager.GetButton("Fire") && Time.time > nextFire)
 			{
-				Instantiate(bullet, shotSpawns[0].position, shotSpawns[0].rotation);
+				nextFire = Time.time + fireRate;
+				if (fireLevel >= 1)
+				{
+					Instantiate(bullet, shotSpawns[0].position, shotSpawns[0].rotation);
+				}
+				if (fireLevel >= 2)
+				{
+					Instantiate(bullet, shotSpawns[1].position, shotSpawns[1].rotation);
+					Instantiate(bullet, shotSpawns[2].position, shotSpawns[2].rotation);
+				}
+				if (fireLevel >= 3)
+				{
+					Instantiate(bullet, shotSpawns[3].position, shotSpawns[3].rotation);
+					Instantiate(bullet, shotSpawns[4].position, shotSpawns[4].rotation);
+				}
+
 			}
-			if(fireLevel >= 2)
-			{
-				Instantiate(bullet, shotSpawns[1].position, shotSpawns[1].rotation);
-				Instantiate(bullet, shotSpawns[2].position, shotSpawns[2].rotation);
-			}
-			if(fireLevel >= 3)
-			{
-				Instantiate(bullet, shotSpawns[3].position, shotSpawns[3].rotation);
-				Instantiate(bullet, shotSpawns[4].position, shotSpawns[4].rotation);
-			}
-			
 		}
+		
 
 	}
 
@@ -59,5 +71,41 @@ public class Player : MonoBehaviour {
 		rb.velocity = movement * speed;
 
 		rb.position = new Vector2(Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax), Mathf.Clamp(rb.position.y, boundary.yMin, boundary.yMax));
+	}
+
+	public void Respawn()
+	{
+		lives--;
+		if(lives > 0)
+		{
+			StartCoroutine(Spawning());
+		}
+		else
+		{
+			lives = 0;
+			isDead = true;
+			sprite.enabled = false;
+		}
+
+		LevelController.levelController.SetLivesText(lives);
+	}
+
+	IEnumerator Spawning()
+	{
+		isDead = true;
+		sprite.enabled = false;
+		fireLevel = 1;
+		gameObject.layer = 11;
+		yield return new WaitForSeconds(spawnTime);
+		isDead = false;
+		
+		transform.position = startPosition;
+		for (float i = 0; i < invencibilityTime; i+= 0.1f)
+		{
+			sprite.enabled = !sprite.enabled;
+			yield return new WaitForSeconds(0.1f);
+		}
+		gameObject.layer = 8;
+		sprite.enabled = true;
 	}
 }
