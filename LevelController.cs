@@ -7,12 +7,27 @@ public class LevelController : MonoBehaviour {
 
 	public static LevelController levelController;
 
+	public float startWait;
+	public GameObject[] enemies;
+	public Boundary boundary;
+	public Vector2 spawnWait;
+	public int enemyCountMax = 10;
+	public float spawnWaitMin;
+	public float waveWait;
+	public float waveWaitMin;
+
 	public Text livesText;
+	public Text scoreText;
+
+	private bool gameOver = false;
+	private int enemyCount = 1;
+	private int score;
 
 	// Use this for initialization
 	void Start () {
 
 		levelController = this;
+		StartCoroutine(SpawnWaves());
 
 	}
 	
@@ -20,9 +35,45 @@ public class LevelController : MonoBehaviour {
 	void Update () {
 		
 	}
+	
+	IEnumerator SpawnWaves()
+	{
+		yield return new WaitForSeconds(startWait);
+		while (!gameOver)
+		{
+			for (int i = 0; i < enemyCount; i++)
+			{
+				GameObject enemy = enemies[Random.Range(0, enemies.Length)];
+				Vector3 spawnPosition = new Vector3(Random.Range(boundary.xMin, boundary.xMax), boundary.yMin, 0);
+				Instantiate(enemy, spawnPosition, Quaternion.identity);
+				yield return new WaitForSeconds(Random.Range(spawnWait.x, spawnWait.y));
+			}
 
+			enemyCount++;
+			if (enemyCount >= enemyCountMax)
+				enemyCount = enemyCountMax;
+			spawnWait.x -= 0.1f;
+			spawnWait.y -= 0.1f;
+			if (spawnWait.y <= spawnWaitMin)
+				spawnWait.y = spawnWaitMin;
+			if (spawnWait.x <= spawnWaitMin)
+				spawnWait.x = spawnWaitMin;
+			yield return new WaitForSeconds(waveWait);
+			waveWait -= 0.1f;
+			if (waveWait <= waveWaitMin)
+				waveWait = waveWaitMin;
+
+		}
+	}
+	
 	public void SetLivesText(int lives)
 	{
 		livesText.text = lives.ToString();
+	}
+	
+	public void SetScore(int scorePoints)
+	{
+		score += scorePoints;
+		scoreText.text = score.ToString();
 	}
 }
