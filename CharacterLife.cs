@@ -7,6 +7,7 @@ public class CharacterLife : MonoBehaviour {
 	public int health;
 	public GameObject explosion;
 	public Color damageColor;
+	public int scorePoints;
 
 	private bool isDead = false;
 	private SpriteRenderer sprite;
@@ -33,6 +34,7 @@ public class CharacterLife : MonoBehaviour {
 				else
 				{
 					isDead = true;
+					LevelController.levelController.SetScore(scorePoints);
 					Destroy(gameObject);
 				}
 			}
