@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour {
 
@@ -15,9 +16,11 @@ public class LevelController : MonoBehaviour {
 	public float spawnWaitMin;
 	public float waveWait;
 	public float waveWaitMin;
+	public GameObject gameOverText;
 
 	public Text livesText;
 	public Text scoreText;
+	public Text recordText;
 
 	private bool gameOver = false;
 	private int enemyCount = 1;
@@ -34,6 +37,13 @@ public class LevelController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+		if (gameOver)
+		{
+			if (Input.GetMouseButtonDown(0))
+			{
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			}
+		}
 	}
 	
 	IEnumerator SpawnWaves()
@@ -75,5 +85,16 @@ public class LevelController : MonoBehaviour {
 	{
 		score += scorePoints;
 		scoreText.text = score.ToString();
+	}
+	
+	public void GameOver()
+	{
+		gameOver = true;
+		gameOverText.SetActive(true);
+
+		if (PlayerPrefs.GetInt("MaxScore") < score)
+			PlayerPrefs.SetInt("MaxScore", score);
+
+		recordText.text = "Record: " + PlayerPrefs.GetInt("MaxScore");
 	}
 }
