@@ -85,6 +85,7 @@ public class Player : MonoBehaviour {
 			lives = 0;
 			isDead = true;
 			sprite.enabled = false;
+			LevelController.levelController.GameOver();
 		}
 
 		LevelController.levelController.SetLivesText(lives);
