@@ -26,10 +26,13 @@ public class Player : MonoBehaviour {
 	private bool isDead = false;
 	private SpriteRenderer sprite;
 	private Vector3 startPosition;
+	private CharacterLife characterLife;
 
 	// Use this for initialization
 	void Start () {
 
+		characterLife = GetComponent<CharacterLife>();
+		
 		rb = GetComponent<Rigidbody2D>();
 		sprite = GetComponent<SpriteRenderer>();
 		startPosition = transform.position;
@@ -108,5 +111,6 @@ public class Player : MonoBehaviour {
 		}
 		gameObject.layer = 8;
 		sprite.enabled = true;
+		characterLife.isDead = false;
 	}
 }
