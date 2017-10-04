@@ -9,7 +9,9 @@ public class CharacterLife : MonoBehaviour {
 	public Color damageColor;
 	public int scorePoints;
 
-	private bool isDead = false;
+	[HideInInspector]
+	public bool isDead = false;
+	
 	private SpriteRenderer sprite;
 
 	// Use this for initialization
@@ -23,6 +25,7 @@ public class CharacterLife : MonoBehaviour {
 	{
 		if (!isDead)
 		{
+			isDead = true;
 			health -= damage;
 			if(health <= 0)
 			{
@@ -33,7 +36,7 @@ public class CharacterLife : MonoBehaviour {
 				}
 				else
 				{
-					isDead = true;
+					
 					LevelController.levelController.SetScore(scorePoints);
 					Destroy(gameObject);
 				}
