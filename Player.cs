@@ -9,6 +9,11 @@ public class Boundary
 	public float xMin, xMax, yMin, yMax;
 }
 
+public enum ItemEffect
+{
+	shield, levelUp, special
+}
+
 public class Player : MonoBehaviour {
 
 	public float speed;
@@ -112,5 +117,15 @@ public class Player : MonoBehaviour {
 		gameObject.layer = 8;
 		sprite.enabled = true;
 		characterLife.isDead = false;
+	}
+	
+	public void SetItemEffect(ItemEffect effect)
+	{
+		if(effect == ItemEffect.levelUp)
+		{
+			fireLevel++;
+			if (fireLevel >= 3)
+				fireLevel = 3;
+		}
 	}
 }
