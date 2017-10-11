@@ -8,6 +8,7 @@ public class CharacterLife : MonoBehaviour {
 	public GameObject explosion;
 	public Color damageColor;
 	public int scorePoints;
+	public GameObject[] dropItems;
 
 	[HideInInspector]
 	public bool isDead = false;
@@ -36,7 +37,13 @@ public class CharacterLife : MonoBehaviour {
 				}
 				else
 				{
-					
+					chanceToDroptItem++;
+					int random = Random.Range(0, 100);
+					if(random < chanceToDroptItem && dropItems.Length > 0)
+					{
+						Instantiate(dropItems[Random.Range(0, dropItems.Length)], transform.position, Quaternion.identity);
+						chanceToDroptItem = 0;
+					}
 					LevelController.levelController.SetScore(scorePoints);
 					Destroy(gameObject);
 				}
