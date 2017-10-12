@@ -25,6 +25,7 @@ public class Player : MonoBehaviour {
 	public int lives = 3;
 	public float spawnTime;
 	public float invencibilityTime;
+	public GameObject specialLaser;
 
 	private Rigidbody2D rb;
 	private float nextFire;
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour {
 	private SpriteRenderer sprite;
 	private Vector3 startPosition;
 	private CharacterLife characterLife;
+	private int special;
 
 	// Use this for initialization
 	void Start () {
@@ -67,6 +69,13 @@ public class Player : MonoBehaviour {
 					Instantiate(bullet, shotSpawns[4].position, shotSpawns[4].rotation);
 				}
 
+			}
+			
+			if(CrossPlatformInputManager.GetButtonDown("Special") && special > 0)
+			{
+				Instantiate(specialLaser, transform);
+				special--;
+				LevelController.levelController.SetSpecial(special);
 			}
 		}
 		
@@ -126,6 +135,11 @@ public class Player : MonoBehaviour {
 			fireLevel++;
 			if (fireLevel >= 3)
 				fireLevel = 3;
+		}
+		else if(effect == ItemEffect.special)
+		{
+			special++;
+			LevelController.levelController.SetSpecial(special);
 		}
 	}
 }
