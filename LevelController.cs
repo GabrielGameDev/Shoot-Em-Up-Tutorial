@@ -21,6 +21,7 @@ public class LevelController : MonoBehaviour {
 	public Text livesText;
 	public Text scoreText;
 	public Text recordText;
+	public Text specialText;
 
 	private bool gameOver = false;
 	private int enemyCount = 1;
@@ -96,5 +97,10 @@ public class LevelController : MonoBehaviour {
 			PlayerPrefs.SetInt("MaxScore", score);
 
 		recordText.text = "Record: " + PlayerPrefs.GetInt("MaxScore");
+	}
+	
+	public void SetSpecial(int value)
+	{
+		specialText.text = value.ToString();
 	}
 }
