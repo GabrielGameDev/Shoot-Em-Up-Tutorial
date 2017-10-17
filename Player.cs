@@ -26,6 +26,7 @@ public class Player : MonoBehaviour {
 	public float spawnTime;
 	public float invencibilityTime;
 	public GameObject specialLaser;
+	public GameObject shield;
 
 	private Rigidbody2D rb;
 	private float nextFire;
@@ -140,6 +141,10 @@ public class Player : MonoBehaviour {
 		{
 			special++;
 			LevelController.levelController.SetSpecial(special);
+		}
+		else if(effect == ItemEffect.shield)
+		{
+			Instantiate(shield, transform);
 		}
 	}
 }
