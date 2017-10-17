@@ -26,10 +26,12 @@ public class CharacterLife : MonoBehaviour {
 	{
 		if (!isDead)
 		{
-			isDead = true;
+			
 			health -= damage;
 			if(health <= 0)
 			{
+				isDead = true;
+				if(explosion != null)
 				Instantiate(explosion, transform.position, transform.rotation);
 				if(this.GetComponent<Player>() != null)
 				{
