@@ -27,11 +27,11 @@ public class Player : MonoBehaviour {
 	public float invencibilityTime;
 	public GameObject specialLaser;
 	public GameObject shield;
-
+	public SpriteRenderer sprite;
+	
 	private Rigidbody2D rb;
 	private float nextFire;
 	private bool isDead = false;
-	private SpriteRenderer sprite;
 	private Vector3 startPosition;
 	private CharacterLife characterLife;
 	private int special;
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour {
 		characterLife = GetComponent<CharacterLife>();
 		
 		rb = GetComponent<Rigidbody2D>();
-		sprite = GetComponent<SpriteRenderer>();
+		
 		startPosition = transform.position;
 
 	}
