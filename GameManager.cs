@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager gameManager;
 	public int characterIndex;
+	public int points;
 
 	// Use this for initialization
 	void Awake () {
@@ -18,7 +19,7 @@ public class GameManager : MonoBehaviour {
 		{
 			Destroy(gameObject);
 		}
-
+		points = PlayerPrefs.GetInt("Points");
 		DontDestroyOnLoad(gameObject);
 
 	}

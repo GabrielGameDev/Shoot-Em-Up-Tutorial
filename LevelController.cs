@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,16 +37,11 @@ public class LevelController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		
-		if (gameOver)
-		{
-			if (Input.GetMouseButtonDown(0))
-			{
-				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-			}
-		}
+
 	}
-	
+
 	IEnumerator SpawnWaves()
 	{
 		yield return new WaitForSeconds(startWait);
@@ -76,18 +71,18 @@ public class LevelController : MonoBehaviour {
 
 		}
 	}
-	
+
 	public void SetLivesText(int lives)
 	{
 		livesText.text = lives.ToString();
 	}
-	
+
 	public void SetScore(int scorePoints)
 	{
 		score += scorePoints;
 		scoreText.text = score.ToString();
 	}
-	
+
 	public void GameOver()
 	{
 		gameOver = true;
@@ -97,10 +92,18 @@ public class LevelController : MonoBehaviour {
 			PlayerPrefs.SetInt("MaxScore", score);
 
 		recordText.text = "Record: " + PlayerPrefs.GetInt("MaxScore");
+
+		GameManager.gameManager.points += score;
+		PlayerPrefs.SetInt("Points", GameManager.gameManager.points);
 	}
-	
+
 	public void SetSpecial(int value)
 	{
 		specialText.text = value.ToString();
+	}
+
+	public void LoadScene(string sceneName)
+	{
+		SceneManager.LoadScene(sceneName);
 	}
 }
